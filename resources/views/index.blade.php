@@ -43,7 +43,7 @@
             </div>
             <button type="submit" class="btn btn-primary">Get Metrics</button>
         </form>
-        <div id="results" class="mt-4 resultados"></div>
+        <div id="results" class="mt-4 results"></div>
         <button id="saveMetrics" class="btn btn-success mt-2" style="display: none;">Save Metric Run</button>
     </div>
 
@@ -54,13 +54,11 @@
             let formData = new FormData(this);
             let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-            // Convert checkbox values to an array
             let categories = [];
             document.querySelectorAll('input[name="categories[]"]:checked').forEach(checkbox => {
                 categories.push(checkbox.value);
             });
 
-            // Construct an object with form field values
             let data = {
                 url: formData.get('url'),
                 strategy: formData.get('strategy'),
@@ -69,7 +67,7 @@
 
             fetch(window.routes.getMetrics, {
                 method: 'POST',
-                body: JSON.stringify(data), // Send the data as JSON
+                body: JSON.stringify(data),
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': csrfToken,
@@ -95,9 +93,7 @@
                 document.getElementById('saveMetrics').style.display = 'block';
             })
             .catch(errors => {
-                // Handle validation errors
                 console.error('Validation errors:', errors);
-                // Example: Display errors to the user
                 alert('Validation errors: ' + JSON.stringify(errors));
             });
         });
